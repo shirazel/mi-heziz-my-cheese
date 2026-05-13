@@ -161,27 +161,27 @@
                     "שתפו בפעם שהייתם צריכים לבקש עזרה ממישהו שאתם לא רגילים לבקש ממנו.",
                     "ספרו על החלטה קשה שהייתם צריכים לקבל ממש מהר, בתוך רגע אחד.",
                     "שתפו במקרה שבו נאלצתם לוותר על משהו שרציתם לטובת מישהו אחר.",
-                    "ספרו על פעם שבה גיליתם על עצמכם כישרון שלא ידעתם עליו בזכות מצב לא מתוכנן.",
+                    "ספרו על פעם שבה גיליתם על עצמך כישרון שלא ידעתם עליו בזכות מצב לא מתוכנן.",
                     "ספרו על ריב עם חבר/ה קרוב/ה ואיך הצלחתם לשנות את המצב ולחזור להיות בקשר.",
-                    "ספרו על מקרה שבו קיבלתם תפקיד או אחריות שלא הרגשתם לגמרי מוכנים אליהם.",
-                    "שתפו על פעם שבה שיניתם את דעתכם על מישהו/י אחרי שהכרתם אותם קצת יותר לעומק."
+                    "שתפו במקרה שבו קיבלתם תפקיד או אחריות שלא הרגשתם לגמרי מוכנים אליהם.",
+                    "ספרו על פעם שבה שיניתם את דעתכם על מישהו/י אחרי שהכרתם אותם קצת יותר לעומק."
                 ],
                 courage: [
                     "עשו השבוע משהו אחד שרציתם לעשות הרבה זמן ולא העזתם עד עכשיו.",
                     "בחרו משהו שקשה לכם במיוחד להתמודד איתו – ונסו אותו השבוע בכוונה.",
                     "חשבו על משהו שאתם פוחדים להיכשל בו. מה הצעד הראשון הקטן שתעשו מחר כדי לנסות בכל זאת?",
                     "בחרו הרגל אחד קבוע שלכם ושנו אותו השבוע ליום אחד (למשל: מקום ישיבה או מסלול הליכה).",
-                    "זהו פחד אחד שמעכב אתכם – ונסו להתעמת איתו בדרך יצירתית כלשהי השבוע.",
+                    "זהה פחד אחד שמעכב אתכם – ונסו להתעמת איתו בדרך יצירתית כלשהי השבוע.",
                     "צאו מאזור הנוחות שלכם במשהו קטן כבר מחר בבוקר.",
                     "הציעו רעיון חדש או הקימו יד כדי להביע דעה במקום שבו אתם בדרך כלל בוחרים לשתוק.",
                     "פנו למישהו/י שאתם לא מכירים ונסו ליצור איתם שיחה ראשונית קצרה.",
                     "נסו ללמוד מיומנות חדשה שאתם בטוחים שאתם 'גרועים' בה (כמו ציור, ריצה או שירה).",
-                    "בחרו 'חוק' אחד שקבעתם לעצמכם על עצמכם (כמו 'אני לא מסוגל/ת ל...') ונסו לשבור אותו השבוע.",
+                    "בחרו 'חוק' אחד שקבעתם לעצמך על עצמך (כמו 'אני לא מסוגל/ת ל...') ונסו לשבור אותו השבוע.",
                     "בקשו משוב אמיץ מחבר/ה: 'מה דבר אחד שאני יכול/ה לשנות כדי להיות חבר/ה טוב/ה יותר?'.",
                     "קחו משימה שאתם דוחים כבר המון זמן בגלל חשש או חוסר ביטחון – ועשו אותה היום.",
                     "עמדו על שלכם בנושא שחשוב לכם, גם אם שאר הקבוצה חושבת או אומרת אחרת.",
                     "בחרו מישהו/י שחשוב/ה לכם וספרו להם משהו אמיץ שלא אמרתם להם מעולם.",
-                    "השלימו לעצמכם: 'אם לא הייתי מפחד/ת, הייתי מרשה לעצמי להיות יותר...' – עשו צעד אחד בכיוון."
+                    "השלימו לעצמך: 'אם לא הייתי מפחד/ת, הייתי מרשה לעצמי להיות יותר...' – עשו צעד אחד בכיוון."
                 ]
             }
         };
@@ -428,42 +428,33 @@
             const [isExitModalOpen, setIsExitModalOpen] = useState(false);
             const [pendingAction, setPendingAction] = useState(null);
             const [dbInstance, setDbInstance] = useState(null);
-            const [user, setUser] = useState(null);
-            const [hasCountedSession, setHasCountedSession] = useState(false);
 
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'cheese-game-pisgah-v1';
 
-            // --- לוגיקת Firebase ---
+            // --- לוגיקת Firebase עם בולמי זעזועים מלאים ---
             useEffect(() => {
                 const initFB = async () => {
                     if (window.FB_INIT) {
-                        const { initializeApp, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, getFirestore, doc, onSnapshot, firebaseConfig } = window.FB_INIT;
+                        const { initializeApp, getFirestore, doc, onSnapshot, firebaseConfig } = window.FB_INIT;
                         
                         const config = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : firebaseConfig;
-                        
                         if (!config || !config.apiKey) return;
 
                         try {
                             const fbApp = initializeApp(config);
-                            const fbAuth = getAuth(fbApp);
                             const fbDb = getFirestore(fbApp);
                             setDbInstance(fbDb);
-
-                            // תופסים בשקט את בעיית ההרשאות - המשחק ימשיך לעבוד גם בלעדיו
-                            signInAnonymously(fbAuth).catch(() => {});
                             
-                            onAuthStateChanged(fbAuth, (u) => {
-                                setUser(u);
-                                if (u) {
-                                    try {
-                                        onSnapshot(doc(fbDb, 'artifacts', appId, 'public', 'data', 'stats', 'global'), (snap) => {
-                                            if (snap.exists()) setUsageCount(snap.data().plays || 0);
-                                        }, (err) => {});
-                                    } catch(e){}
-                                }
+                            const statsDoc = doc(fbDb, 'artifacts', appId, 'public', 'data', 'stats', 'global');
+                            
+                            // שימוש ב-Callback לשגיאות כדי למנוע קריסה!
+                            onSnapshot(statsDoc, (snap) => {
+                                if (snap.exists()) setUsageCount(snap.data().plays || 0);
+                            }, (err) => {
+                                console.warn("Firestore rules error or permission denied (Ignored to keep game running).");
                             });
                         } catch (err) {
-                            // שקט - מאפשר למשחק לעבוד בצורה לוקאלית אם המסד נכשל
+                            console.warn("Offline mode active.");
                         }
                     }
                 };
@@ -471,10 +462,9 @@
             }, []);
 
             const incrementPlays = async () => {
-                if (!window.FB_INIT || !user || hasCountedSession || !dbInstance) return;
+                if (!window.FB_INIT || !dbInstance) return;
                 const { doc, getDoc, updateDoc, setDoc, increment } = window.FB_INIT;
                 const statsDoc = doc(dbInstance, 'artifacts', appId, 'public', 'data', 'stats', 'global');
-                
                 try {
                     const snap = await getDoc(statsDoc);
                     if (snap.exists()) {
@@ -482,8 +472,9 @@
                     } else {
                         await setDoc(statsDoc, { plays: 1 });
                     }
-                    setHasCountedSession(true);
-                } catch (e) {} // ממשיכים בשקט במקרה של שגיאה
+                } catch (e) {
+                    console.warn("Could not increment plays (Ignored).");
+                }
             };
 
             const handleExitRequest = (targetScreen) => {
@@ -522,7 +513,7 @@
                 const final = Array.from(new Set([...players, ...unsaved]));
                 if (final.length < 2) return;
                 setPlayers(final);
-                incrementPlays();
+                if (stats.questionsAnswered === 0) incrementPlays(); // סופר משחק רק בהפעלה ראשונה
                 pickNextPlayer(final);
             };
 
@@ -534,15 +525,16 @@
                             <h1 className="text-4xl md:text-6xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white to-[#E9D5FF] text-center">מי הזיז את הגבינה שלי</h1>
                             <p className="text-lg md:text-2xl font-light text-[#E9D5FF] mb-10 text-center">מה הייתם עושים אם לא הייתם מפחדים?</p>
                             <ButtonPrimary onClick={() => setScreen(2)}>התחילו לשחק</ButtonPrimary>
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 bg-white/5 px-5 py-2 rounded-full border border-white/10 text-white/50 text-xs flex items-center gap-2">
-                                <Icons.Users size={14}/><span className="text-[#FACC15] font-bold">{usageCount}</span> משחקים שוחקו עד היום
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 bg-white/5 px-5 py-2 rounded-full border border-white/10 text-white/50 text-sm flex items-center gap-2">
+                                <Icons.Users size={14}/>
+                                {usageCount === 0 ? <span>היו הראשונים לשחק במשחק!</span> : <span>עד היום שוחקו <strong className="text-[#FACC15]">{usageCount}</strong> משחקים ברחבי המדינה</span>}
                             </motion.div>
                         </div>
                     );
                     case 2: return (
-                        <div className="flex-1 flex flex-col items-center justify-center w-full max-w-5xl mx-auto px-6 text-center text-center text-center">
+                        <div className="flex-1 flex flex-col items-center justify-center w-full max-w-5xl mx-auto px-6 text-center">
                             <h2 className="text-3xl md:text-4xl font-bold text-white mb-10 text-center">מי משחק היום?</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl mx-auto text-center text-center">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl mx-auto text-center">
                                 <GlassCard className={`p-8 flex flex-col items-center text-center gap-4 ${audience === 'teachers' ? 'ring-2 ring-[#FACC15]/20 shadow-[0_0_15px_rgba(250,204,21,0.1)]' : ''}`} onClick={() => setAudience('teachers')}>
                                     <div className={`p-5 rounded-full ${audience === 'teachers' ? 'bg-[#FACC15] text-[#14002E]' : 'bg-white/5 text-[#E9D5FF]'}`}><Icons.Graduation /></div>
                                     <h3 className="text-xl font-bold text-white">מורים ומורות</h3>
@@ -552,7 +544,7 @@
                                     <h3 className="text-xl font-bold text-white text-center">תלמידים ותלמידות</h3>
                                 </GlassCard>
                             </div>
-                            {audience && <div className="mt-10 flex justify-center text-center text-center"><ButtonPrimary onClick={() => setScreen(3)} icon={Icons.ChevronLeft}>המשך</ButtonPrimary></div>}
+                            {audience && <div className="mt-10 flex justify-center text-center"><ButtonPrimary onClick={() => setScreen(3)} icon={Icons.ChevronLeft}>המשך</ButtonPrimary></div>}
                         </div>
                     );
                     case 3: return (
@@ -580,15 +572,16 @@
                     );
                     case 4: return <ScreenRoulette onNext={() => setScreen(5)} players={players} currentPlayer={currentP} />;
                     case 5: return (
-                        <div className="flex-1 flex flex-col items-center justify-center text-center px-6 text-center">
-                            <p className="text-2xl text-[#E9D5FF] mb-4 text-center text-center">התור של...</p>
-                            <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-[#FACC15] to-[#fff3b0] mb-12 drop-shadow-2xl text-center text-center">{currentP.name}!</h1>
+                        <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
+                            <p className="text-2xl text-[#E9D5FF] mb-4 text-center">התור של...</p>
+                            <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-[#FACC15] to-[#fff3b0] mb-12 drop-shadow-2xl text-center">{currentP.name}!</h1>
                             <ButtonPrimary onClick={() => setScreen(6)} icon={Icons.ChevronLeft}>קדימה, בחר/י קלף</ButtonPrimary>
                         </div>
                     );
                     case 6: return <ScreenQuestionType onSelectType={(t) => { setQType(t); setCurrentQ(QUESTIONS[audience][t][Math.floor(Math.random() * QUESTIONS[audience][t].length)]); setScreen(7); }} currentPlayer={currentP} />;
                     case 7: return <ScreenQuestion onEndTurn={() => { setStats(s => ({ ...s, questionsAnswered: s.questionsAnswered + 1 })); setCurrentQ(""); pickNextPlayer(); }} question={currentQ} type={qType} onRefresh={() => setCurrentQ(QUESTIONS[audience][qType][Math.floor(Math.random() * QUESTIONS[audience][qType].length)])} currentPlayer={currentP} />;
                     case 8: return <ScreenSummary stats={stats} pCount={players.length} />;
+                    default: return null;
                 }
             };
 
@@ -603,12 +596,9 @@
                     />
                     
                     <header className="p-4 md:p-6 flex justify-between items-center z-[100] relative shrink-0">
-                        {/* צד ימין - לוגו */}
                         <button onClick={() => handleExitRequest(1)} className="flex items-center gap-2 opacity-60 hover:opacity-100 pointer-events-auto shrink-0 transition-opacity order-first">
                             <span className="text-xl">🧀</span><span className="text-white font-bold hidden md:block">מי הזיז את הגבינה שלי</span>
                         </button>
-                        
-                        {/* צד שמאל - כפתורים */}
                         <div className="flex gap-2 md:gap-3 pointer-events-auto text-center">
                             <button onClick={() => setIsInfoOpen(true)} className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white border border-white/20 font-medium text-xs md:text-sm backdrop-blur-md hover:bg-white/20 transition-all text-center"><Icons.Info /> הוראות</button>
                             {screen > 3 && screen < 8 && (
@@ -631,10 +621,9 @@
     <!-- Firebase SDK Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         
-        // כאן הכנסנו את הקוד שלך ישירות:
+        // --- Firebase Config injected here ---
         const firebaseConfig = {
             apiKey: "AIzaSyCG-K6TMoRNut6kBKqYjDnenWydYcfeapM",
             authDomain: "cheese-game-5ac92.firebaseapp.com",
@@ -644,7 +633,7 @@
             appId: "1:238630590497:web:2a16a3b3fde9a909c2ab60"
         };
         
-        window.FB_INIT = { initializeApp, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, getFirestore, doc, setDoc, getDoc, updateDoc, increment, onSnapshot, firebaseConfig };
+        window.FB_INIT = { initializeApp, getFirestore, doc, setDoc, getDoc, updateDoc, increment, onSnapshot, firebaseConfig };
     </script>
 </body>
 </html>

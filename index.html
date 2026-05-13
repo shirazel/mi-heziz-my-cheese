@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מי הזיז את הגבינה שלי - פסג"ה חדרה</title>
+    <title>מי הזיז את הגבינ"צ שלי - פסג"ה חדרה</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- React & DOM -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <!-- Framer Motion -->
     <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <style>
@@ -56,7 +51,6 @@
         const { useState, useEffect, useRef, useMemo } = React;
         const { motion, AnimatePresence, useMotionValue, useTransform } = window.Motion;
 
-        // --- אייקונים מעודנים (עובי קו 1.6) ---
         const Icons = {
             Users: ({ color = "currentColor", size = 24 }) => (
                 <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -96,52 +90,68 @@
         const QUESTIONS = {
             teachers: {
                 story: [
-                    "באמצע השנה, משרד החינוך משנה את מתווה ההיבחנות במקצוע שלך.",
-                    "תלמיד חדש עם צרכים ייחודיים מצטרף לכיתה ומשנה את כל הדינמיקה שבנית.",
-                    "הוחלט על מעבר ללמידה היברידית (חלק מהתלמידים בכיתה וחלק בזום) מהיום למחר.",
-                    "רכזת השכבה מודיעה על שינוי דרמטי בלוח המבחנים שמאלץ אותך לדחוס חומר רב.",
-                    "מודיעים לכם שכל המורים נדרשים להשתמש במערכת טכנולוגית חדשה ולא מוכרת לניהול ציונים.",
-                    "במהלך שיעור שצופים בך, מתפתח עימות חריף בין שני תלמידים שקוטע את הרצף.",
-                    "שעות ההוראה שלך קוצצו, ואת נדרשת ללמד מקצוע שמעולם לא לימדת קודם.",
-                    "תקציב הפעילות לפרויקט השנתי שלך בוטל ברגע האחרון.",
-                    "שותפה לצוות ההוראה יצאה לחופשה פתאומית, וכל האחריות המשותפת נופלת עלייך."
+                    "נכנסת לכיתה וגילית שאין אינטרנט וכל השיעור המתוכנן שלך היה דיגיטלי.",
+                    "הורה מתקשר/ת בזעם על שינוי בשיטת ההערכה או בנהלים שקבעת לכיתה.",
+                    "הנהלת בית הספר מודיעה שמהשבוע כל הצוות עובר ללמד בפורמט חדש ולא מוכר.",
+                    "תלמיד/ה 'שקופ/ה' שבדרך כלל לא משתתף/ת, קוטע/ת את השיעור ומבקש/ת לדבר על רגש בוער.",
+                    "קיבלת הצעה לעזוב את ההוראה הפרונטלית לטובת תפקיד ניהולי שמעולם לא עשית.",
+                    "המנהל/ת מודיע/ה שמהשבוע כל ישיבות הצוות הן 'סיעור מוחות' ללא סדר יום קבוע.",
+                    "באמצע השנה, משרד החינוך משנה לחלוטין את מתווה ההיבחנות במקצוע שלך.",
+                    "תלמיד/ה חדש/ה עם צרכים מורכבים מצטרף/ת לכיתה ומשנה את כל הדינמיקה.",
+                    "הוחלט על מעבר ללמידה היברידית (חלק בכיתה וחלק מרחוק) מהיום למחר.",
+                    "רכז/ת השכבה מודיעה על שינוי דרמטי בלוח המבחנים שמאלץ אותך לדחוס חומר רב.",
+                    "התגלה שחלק גדול מהתלמידים והתלמידות השתמשו ב-AI כדי להגיש עבודה חשובה.",
+                    "במהלך שיעור שצופים בך, מתפתח עימות חריף ובלתי צפוי בין שני תלמידים.",
+                    "שעות ההוראה שלך קוצצו, ואת/ה נדרש/ת ללמד מקצוע שמעולם לא לימדת בעבר.",
+                    "תקציב הפעילות לפרויקט השנתי שעבדת עליו זמן רב בוטל ברגע האחרון.",
+                    "יום לפני טקס משמעותי שאת/ה אחראי/ת עליו, מספר תלמידי מפתח מודיעים שלא יגיעו."
                 ],
                 sharing: [
-                    "ספרי על שינוי ארגוני בבית הספר שהתנגדת אליו בהתחלה, ובסוף גילית את היתרונות שבו.",
-                    "שתפי בפעם שבה היית צריכה ללמוד וללמד מיומנות חדשה לגמרי בזמן קצר מאוד.",
-                    "ספרי על רגע שבו הרגשת שחיקה, ומה עשית כדי לייצר שינוי מרענן בקריירה.",
-                    "שתפי במקרה שבו נאלצת להעביר משוב ביקורתי קשה לקולגה, ואיך זה השפיע על הקשר.",
-                    "ספרי על חוויה שבה יצאת מאזור הנוחות המקצועי שלך ולקחת על עצמך תפקיד חדש.",
-                    "שתפי בהתמודדות עם שינוי דורי (הפער בינך לבין התלמידים) ואיך גישרת עליו.",
-                    "ספרי על פעם שבה נאלצת להתגמש ולוותר על אג'נדה שלך לטובת אילוצי המערכת.",
-                    "שתפי במקרה שבו הופתעת לטובה מתלמיד שלא ציפית ממנו לשינוי.",
-                    "ספרי על התמודדות עם עומס לא מתוכנן שאיים להציף אותך, ואיך תעדפת משימות.",
-                    "שתפי ברגע של חוסר ודאות מוחלט בקריירה, וכיצד בחרת לפעול בתוכו."
+                    "שתפ/י על שינוי משמעותי שעברת בקריירה החינוכית שלך ואיך הוא עיצב אותך כיום.",
+                    "שתפ/י במקרה שבו נאלצת לשנות את כל תוכנית העבודה שלך בגלל צורך שעלה מהתלמידים.",
+                    "ספר/י על פעם שבה הרגשת חוסר אונים מול שינוי שנכפה עליך, ואיך צמחת ממנו.",
+                    "שתפ/י ברגע שבו העזת להודות מול קולגות או הנהלה שאינך יודע/ת איך להתמודד עם אתגר.",
+                    "ספר/י על תלמיד/ה אחד/ת שגרמו לך לשנות את כל תפיסת העולם הפדגוגית שלך.",
+                    "שתפ/י על שינוי ארגוני בבית הספר שהתנגדת לו בהתחלה, ובסוף גילית את היתרונות שבו.",
+                    "ספר/י על פעם שבה היית צריכ/ה ללמוד וללמד מיומנות חדשה לגמרי בזמן קצר מאוד.",
+                    "שתפ/י ברגע שבו הרגשת שחיקה, ומה היה השינוי הקטן שנתן לך כוח להמשיך.",
+                    "ספר/י על מקרה שבו נאלצת להעביר משוב ביקורתי קשה לקולגה, ואיך זה השפיע על הקשר.",
+                    "שתפ/י בחוויה שבה יצאת מאזור הנוחות המקצועי שלך ולקחת על עצמך פרויקט חדשני.",
+                    "ספר/י על התמודדות עם פער דורי או תרבותי בינך לבין התלמידים ואיך גישרת עליו.",
+                    "שתפ/י בפעם שבה נאלצת להתגמש ולוותר על אג'נדה פדגוגית לטובת אילוצי המערכת.",
+                    "ספר/י על מקרה שבו הופתעת לטובה משינוי התנהגותי של תלמיד/ה שלא ציפית ממנו.",
+                    "שתפ/י על פעם שבה היית צריכ/ה להודות בטעות מקצועית מול הכיתה או מול הצוות.",
+                    "ספר/י על רגע של חוסר ודאות מוחלט בקריירה, וכיצד בחרת לפעול בתוך הערפל."
                 ],
                 courage: [
-                    "הציעי לקולגה 'חילופי כיתות' לשיעור אחד כדי ללמוד על סגנונות הוראה שונים.",
-                    "שבי בחדר המורים ליד מישהו שאת בדרך כלל לא מדברת איתו ושאלי אותו על אתגר שהוא חווה.",
-                    "שחררי משימה אחת שאת תמיד עושה בעצמך והאצילי אותה לתלמיד או לקולגה.",
-                    "בשיעור הבא, הקדישי 10 דקות לשיח רגשי פתוח על 'פחד משינוי' במקום להתקדם בחומר.",
-                    "צרי קשר עם הורה של תלמיד מאתגר, לא כדי להתלונן, אלא כדי לציין משהו חיובי קטן שראית בו.",
-                    "בקשי מהתלמידים משוב אנונימי: 'מה דבר אחד שהייתם רוצים שאשנה בדרך שבה אני מלמדת?'.",
-                    "נסי להעביר שיעור שלם ללא שימוש בלוח או במצגת, רק דרך שיח והפעלה.",
-                    "עמדי בישיבת הצוות הבאה והציגי רעיון חדשני שחששת להגיד עד כה.",
-                    "החליטי על 'שעת ניתוק' שבה את לא עונה להודעות וואטסאפ מהעבודה, והודיעי על כך.",
-                    "השלימי את המשפט מול חברת צוות: 'השינוי שאני הכי רוצה להוביל בבית הספר הוא...'"
+                    "עשה/י השבוע משהו אחד שרצית לעשות בשיעור או בעבודה הרבה זמן ולא העזת.",
+                    "בחר/י משהו שקשה לך במיוחד בהתנהלות מול המערכת – וגש/י לפתור אותו השבוע.",
+                    "מה היית משנה בהוראה שלך אילו לא היית מפחד/ת מביקורת? עשה/י צעד אחד בכיוון.",
+                    "שחרר/י השבוע משימה אחת שאת/ה תמיד עושה בעצמך – ותן/י לתלמיד/ה או לקולגה להוביל.",
+                    "זהה/י הרגל פדגוגי שמעכב אותך ושנה/י אותו בכוונה בשיעור הקרוב.",
+                    "נסה/י כלי עבודה או טכנולוגיה חדשה שחששת ממנה בעבר, והכנס/י אותה לכיתה.",
+                    "הפסק/י לעשות השבוע פעולה אחת שאת/ה עושה רק 'כי ככה כולם עושים' או 'כי ככה צריך'.",
+                    "בקש/י מהתלמידים והתלמידות שלך משוב אמיץ על משהו שאת/ה חושש/ת לשמוע עליו.",
+                    "יזם/י השבוע שיחה מקצועית או אישית שאת/ה דוחה כבר זמן רב בגלל החשש מהתגובה.",
+                    "הצע/י רעיון חדשני או שונה מהרגיל בישיבת הצוות הבאה, גם אם הוא נראה נועז.",
+                    "צא/י מאזור הנוחות המקצועי שלך מול הנהלת בית הספר או מול קולגות בצוות.",
+                    "נסה/י לחנך או להגיב לתלמיד/ה מאתגר/ת בדרך שונה לחלוטין מכל מה שניסית עד היום.",
+                    "קבע/י לעצמך גבול אישי חדש מול העבודה (כמו שעת ניתוק מהודעות) ועמוד/י בו באומץ.",
+                    "החלט/י על שינוי אחד קטן במרחב הפיזי של הכיתה או בפינת העבודה שלך שרצית מזמן.",
+                    "השלם/י לעצמך: 'אילו לא הייתי מפחד/ת, השינוי שהייתי מוביל/ה הוא...' – התחל/י היום"
                 ]
             },
             students: {
                 story: [
                     "נכנסת לכיתה וראית שהעבירו את המקום שלך לסוף הכיתה ליד תלמיד/ה שפחות מוכר/ת לך.",
-                    "הגעת לבית הספר וגילית שהטיול השנתי בוטל ובמקומו לומדים כרגיל.",
+                    "הגעת לבית הספר וגילית שהטיול השנתי שחיכית לו בוטל ובמקומו לומדים כרגיל.",
                     "המורה שאת/ה הכי אוהב/ת יצא/ה לחופשה והחליפ/ה אותה מורה עם דרישות אחרות לגמרי.",
                     "חבר/ה קרוב/ה מספר/ת לך בסוד על מעבר לגור בעיר אחרת כבר בסוף השבוע.",
                     "התכוננת להציג פרויקט, ורגע לפני שאת/ה מתחיל/ה המחשב נכבה וכל המצגת נמחקה.",
                     "הודיעו שהמבחן הגדול נדחה למחר, ויש לך יום אחד להתכונן בשיטה שלא ניסית מעולם.",
                     "הכללים לגבי שימוש בטלפונים בהפסקות השתנו הבוקר לאיסור מוחלט ומפתיע.",
                     "הגעת לחוג שאת/ה אוהב/ת וגילית שהמאמן/ת החליט/ה לשנות לך תפקיד או לשבץ אותך בקבוצה אחרת.",
-                    "המשפחה הודיעה שביטלו את החופשה המתוכננת, ובמקום זה נשארים בבית ל'קייטנה משפחתית'.",
+                    "המשפחה הודיעה שביטלו את החופשה המתוכננת, ובמקום זה נשארים בבית.",
                     "גילית שחוקי המשחק שאת/ה הכי אוהב/ת לשחק בהפסקה שונו על ידי שאר הילדים בלעדיך.",
                     "עברתם ללמוד בשיטה שדורשת רק עבודה בקבוצות, למרות שאת/ה מעדיף/ה לעבוד לבד.",
                     "חולצת המזל שלך, זו שנותנת לך ביטחון בימים חשובים, נהרסה בטעות בכביסה.",
@@ -150,43 +160,42 @@
                     "נבחרת לייצג את הכיתה בטקס, ורגע לפני העלייה לבמה אומרים לך שכל הטקסט השתנה."
                 ],
                 sharing: [
-                    "ספרו על פעם שהייתם צריכים להפעיל את כל היצירתיות שלכם כדי להתמודד עם שינוי לא צפוי.",
-                    "ספרו לנו על פעם שהלכתם לאיבוד (במקום פיזי או בתוך משימה) ואיך מצאתם את הדרך.",
-                    "שתפו בהתמודדות שלכם עם כישלון במבחן או במשימה שהייתה חשובה לכם במיוחד.",
-                    "ספרו על פעם שבה נאלצתם להסתדר בלי משהו שאתם מאוד רגילים אליו (כמו טלפון או מחשב).",
-                    "שתפו בחוויה של מעבר (דירה, חדר, כיתה) ואיך היה האתגר הראשון שלכם שם.",
-                    "ספרו על פעם שבה הייתם צריכים להכיר חברים חדשים במקום שבו לא הכרתם אף אחד.",
-                    "שתפו ברגע שבו פחדתם לנסות משהו חדש, ובסוף אזרתם אומץ ועשיתם זאת.",
-                    "ספרו על מקרה שבו תוכנית שתכננתם הרבה זמן לא יצאה לפועל, ומה עשיתם במקום.",
-                    "שתפו בפעם שהייתם צריכים לבקש עזרה ממישהו שאתם לא רגילים לבקש ממנו.",
-                    "ספרו על החלטה קשה שהייתם צריכים לקבל ממש מהר, בתוך רגע אחד.",
-                    "שתפו במקרה שבו נאלצתם לוותר על משהו שרציתם לטובת מישהו אחר.",
-                    "ספרו על פעם שבה גיליתם על עצמך כישרון שלא ידעתם עליו בזכות מצב לא מתוכנן.",
-                    "ספרו על ריב עם חבר/ה קרוב/ה ואיך הצלחתם לשנות את המצב ולחזור להיות בקשר.",
-                    "שתפו במקרה שבו קיבלתם תפקיד או אחריות שלא הרגשתם לגמרי מוכנים אליהם.",
-                    "ספרו על פעם שבה שיניתם את דעתכם על מישהו/י אחרי שהכרתם אותם קצת יותר לעומק."
+                    "שתפ/י על פעם שהיית צריכ/ה להפעיל את כל היצירתיות שלך כדי להתמודד עם שינוי.",
+                    "ספר/י לנו על פעם שהלכת לאיבוד (במקום פיזי או בתוך משימה) ואיך מצאת את הדרך.",
+                    "שתפ/י בהתמודדות שלך עם כישלון במבחן או במשימה שהייתה חשובה לך במיוחד.",
+                    "ספר/י על פעם שבה נאלצת להסתדר בלי משהו שאת/ה מאוד רגיל/ה אליו (כמו טלפון).",
+                    "שתפ/י בחוויה של מעבר (דירה, חדר, כיתה) ואיך היה האתגר הראשון שלך שם.",
+                    "ספר/י על פעם שבה היית צריכ/ה להכיר חברים חדשים במקום שבו לא הכרת אף אחד.",
+                    "שתפ/י ברגע שבו פחדת לנסות משהו חדש, ובסוף אזרת אומץ ועשית זאת.",
+                    "ספר/י על מקרה שבו תוכנית שתכננת הרבה זמן לא יצאה לפועל, ומה עשית במקום.",
+                    "שתפ/י בפעם שהיית צריכ/ה לבקש עזרה ממישהו שאת/ה לא רגיל/ה לבקש ממנו.",
+                    "ספר/י על החלטה קשה שהיית צריכ/ה לקבל ממש מהר, בתוך רגע אחד.",
+                    "שתפ/י במקרה שבו נאלצת לוותר על משהו שרצית לטובת מישהו אחר.",
+                    "ספר/י על פעם שבה גילית על עצמך כישרון שלא ידעת עליו בזכות מצב לא מתוכנן.",
+                    "שתפ/י על ריב עם חבר/ה קרוב/ה ואיך הצלחתם לשנות את המצב ולחזור להיות בקשר.",
+                    "ספרו על מקרה שבו קיבלת תפקיד או אחריות שלא הרגשת לגמרי מוכנ/ה אליהם.",
+                    "שתפ/י על פעם שבה שינית את דעתך על מישהו/י אחרי שהכרת אותם קצת יותר לעומק."
                 ],
                 courage: [
-                    "עשו השבוע משהו אחד שרציתם לעשות הרבה זמן ולא העזתם עד עכשיו.",
-                    "בחרו משהו שקשה לכם במיוחד להתמודד איתו – ונסו אותו השבוע בכוונה.",
-                    "חשבו על משהו שאתם פוחדים להיכשל בו. מה הצעד הראשון הקטן שתעשו מחר כדי לנסות בכל זאת?",
-                    "בחרו הרגל אחד קבוע שלכם ושנו אותו השבוע ליום אחד (למשל: מקום ישיבה או מסלול הליכה).",
-                    "זהה פחד אחד שמעכב אתכם – ונסו להתעמת איתו בדרך יצירתית כלשהי השבוע.",
-                    "צאו מאזור הנוחות שלכם במשהו קטן כבר מחר בבוקר.",
-                    "הציעו רעיון חדש או הקימו יד כדי להביע דעה במקום שבו אתם בדרך כלל בוחרים לשתוק.",
-                    "פנו למישהו/י שאתם לא מכירים ונסו ליצור איתם שיחה ראשונית קצרה.",
-                    "נסו ללמוד מיומנות חדשה שאתם בטוחים שאתם 'גרועים' בה (כמו ציור, ריצה או שירה).",
-                    "בחרו 'חוק' אחד שקבעתם לעצמך על עצמך (כמו 'אני לא מסוגל/ת ל...') ונסו לשבור אותו השבוע.",
-                    "בקשו משוב אמיץ מחבר/ה: 'מה דבר אחד שאני יכול/ה לשנות כדי להיות חבר/ה טוב/ה יותר?'.",
-                    "קחו משימה שאתם דוחים כבר המון זמן בגלל חשש או חוסר ביטחון – ועשו אותה היום.",
-                    "עמדו על שלכם בנושא שחשוב לכם, גם אם שאר הקבוצה חושבת או אומרת אחרת.",
-                    "בחרו מישהו/י שחשוב/ה לכם וספרו להם משהו אמיץ שלא אמרתם להם מעולם.",
-                    "השלימו לעצמך: 'אם לא הייתי מפחד/ת, הייתי מרשה לעצמי להיות יותר...' – עשו צעד אחד בכיוון."
+                    "עשה/י השבוע משהו אחד שרצית לעשות הרבה זמן ולא העזת עד עכשיו.",
+                    "בחר/י משהו שקשה לך במיוחד להתמודד איתו – ונסה/י אותו השבוע בכוונה.",
+                    "חשב/י על משהו שאת/ה פוחד/ת להיכשל בו. מה הצעד הראשון הקטן שתעשה/י מחר?",
+                    "בחר/י הרגל אחד קבוע שלך ושנה/י אותו השבוע ליום אחד (למשל: מקום ישיבה).",
+                    "זהה/י פחד אחד שמעכב אותך – ונסה/י להתעמת איתו בדרך יצירתית השבוע.",
+                    "צא/י מאזור הנוחות שלכם במשהו קטן כבר מחר בבוקר.",
+                    "הצע/י רעיון חדש או הבע/י דעה במקום שבו את/ה בדרך כלל בוחר/ת לשתוק.",
+                    "פנה/י למישהו/י שאת/ה לא מכיר/ה ונסה/י ליצור איתם שיחה ראשונית קצרה.",
+                    "נסה/י ללמוד מיומנות חדשה שאת/ה בטוח/ה שאת/ה 'גרוע/ה' בה (כמו ציור או שירה).",
+                    "בחר/י 'חוק' אחד שקבעת לעצמך על עצמך ונסה/י לשבור אותו השבוע.",
+                    "בקש/י משוב אמיץ מחבר/ה: 'מה דבר אחד שאני יכול/ה לשנות כדי להיות חבר/ה טוב/ה יותר?'.",
+                    "קח/י משימה שאת/ה דוחה כבר המון זמן בגלל חשש או חוסר ביטחון – ועשה/י אותה היום.",
+                    "עמוד/י על שלך בנושא שחשוב לך, גם אם שאר הקבוצה חושבת אחרת.",
+                    "בחר/י מישהו/י שחשוב/ה לך וספר/י להם משהו אמיץ שלא אמרתם להם מעולם.",
+                    "השלם/י לעצמך: 'אם לא הייתי מפחד/ת, הייתי מרשה לעצמי להיות יותר...' – עשה/י צעד אחד בכיוון."
                 ]
             }
         };
 
-        // --- רכיבי בסיס מסודרים ---
         const Background = () => {
             return (
                 <div className="absolute inset-0 z-0 overflow-hidden bg-[#14002E] pointer-events-none">
@@ -240,14 +249,15 @@
                                     <section className="bg-white/5 p-5 rounded-2xl border border-white/10">
                                         <h3 className="text-[#FACC15] font-bold text-lg mb-2 text-center">הרקע והמשמעות הפדגוגית</h3>
                                         <p className="text-white/80 text-sm text-center">
-                                            המשחק מבוסס על רב המכר של ספנסר ג'ונסון, <strong>"מי הזיז את הגבינה שלי"</strong>. 
+                                            שם המשחק מתבסס על רב המכר של ספנסר ג'ונסון, <strong>"מי הזיז את הגבינה שלי"</strong>. 
                                             מטרת המשחק היא לפתח <strong>חוסן, גמישות מחשבתית ויכולת התמודדות</strong> עם שינויים בלתי צפויים.
+                                            המשחק מזמן שיח על מצבים שבאים בעקבות שינויים בלתי צפויים ועל התמודדות עם מצבים אלו. ניתן לבצע את הפעילות גם עם צוות מורים וגם עם תלמידים.
                                         </p>
                                         <p className="text-[#FACC15] font-bold mt-2 text-center text-sm">המשחק מיועד להקרנה על מסך בכיתה או בזום.</p>
                                     </section>
                                     <section className="space-y-3">
                                         <h3 className="text-white font-bold text-lg border-r-4 border-[#FACC15] pr-3 text-center">איך משחקים?</h3>
-                                        <ul className="pr-5 mt-2 space-y-3 text-white/70 text-sm text-center">
+                                        <ul className="pr-5 mt-2 space-y-3 text-white/70 text-sm">
                                             <li className="flex items-start gap-3"><Icons.BookOpen color="#fbbf24" size={18}/><span><strong className="text-orange-400">קלף הסיפור:</strong> התמודדות עם מצבי אמת היפותטיים.</span></li>
                                             <li className="flex items-start gap-3"><Icons.Heart color="#fbbf24" size={18}/><span><strong className="text-blue-400">קלף השיתוף:</strong> שיתוף אישי מהעבר לבניית אמון.</span></li>
                                             <li className="flex items-start gap-3"><Icons.Zap color="#fbbf24" size={18}/><span><strong className="text-[#FACC15]">קלף האומץ:</strong> אתגר מעשי ליציאה מאזור הנוחות.</span></li>
@@ -355,65 +365,64 @@
                                     <span className="text-xs md:text-lg font-black text-white leading-tight text-center">קלף האומץ</span>
                                 </GlassCard></div>
                         </div>
-                        <div className="h-20 shrink-0 text-center"><motion.div drag dragConstraints={constraintsRef} dragElastic={0.1} onDragEnd={(_, info) => { if (info.offset.y < -50) { if (info.offset.x > 60) onSelectType('story'); else if (info.offset.x < -60) onSelectType('courage'); else onSelectType('sharing'); } }} style={{ x, y }} className="cursor-grab text-7xl md:text-8xl drop-shadow-[0_10px_30px_rgba(250,204,21,0.5)] text-center text-center">🧀</motion.div></div>
+                        <div className="h-20 shrink-0 text-center"><motion.div drag dragConstraints={constraintsRef} dragElastic={0.1} onDragEnd={(_, info) => { if (info.offset.y < -50) { if (info.offset.x > 60) onSelectType('story'); else if (info.offset.x < -60) onSelectType('courage'); else onSelectType('sharing'); } }} style={{ x, y }} className="cursor-grab text-7xl md:text-8xl drop-shadow-[0_10px_30px_rgba(250,204,21,0.5)] text-center">🧀</motion.div></div>
                         <div className="text-[#FACC15] animate-pulse flex items-center gap-2 text-sm justify-center text-center"><Icons.ArrowUp /> גרור/י למעלה לבחירה</div>
                     </div>
                 </div>
             );
-        }
+        };
 
-        function ScreenQuestion({ onEndTurn, question, type, onRefresh, currentPlayer }) {
+        const ScreenQuestion = ({ onEndTurn, question, type, onRefresh, currentPlayer }) => {
             const [isP, setIsP] = useState(false);
             const conf = { sharing: { l: 'קלף השיתוף', i: Icons.Heart, c: 'from-blue-500/20', a: 'text-blue-200' }, story: { l: 'קלף הסיפור', i: Icons.BookOpen, c: 'from-orange-500/20', a: 'text-orange-200' }, courage: { l: 'קלף האומץ', i: Icons.Zap, c: 'from-[#FACC15]/20', a: 'text-[#FACC15]' } }[type];
             return (
-                <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 text-center text-center">
+                <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6 text-center">
                     <AnimatePresence mode="wait">
                         {!isP ? (
-                            <motion.div key="q" className="w-full flex flex-col items-center text-center text-center">
+                            <motion.div key="q" className="w-full flex flex-col items-center text-center">
                                 <GlassCard className={`p-8 md:p-12 min-h-[220px] flex flex-col items-center justify-center w-full bg-gradient-to-b ${conf.c} to-transparent border-[#FACC15]/10 shadow-2xl text-center`}>
-                                    <div className={`mb-6 flex items-center gap-3 ${conf.a} font-black text-xl md:text-2xl justify-center text-center text-center`}><conf.i color="#FACC15" size={40}/> {conf.l}</div>
+                                    <div className={`mb-6 flex items-center gap-3 ${conf.a} font-black text-xl md:text-2xl justify-center text-center`}><conf.i color="#FACC15" size={40}/> {conf.l}</div>
                                     <h2 className="text-xl md:text-3xl font-bold text-white leading-relaxed text-center">{question}</h2>
                                 </GlassCard>
-                                <div className="flex flex-col md:flex-row gap-4 mt-8 justify-center text-center text-center">
+                                <div className="flex flex-col md:flex-row gap-4 mt-8 justify-center text-center">
                                     <button onClick={onRefresh} className="bg-white/10 text-white border border-white/20 px-8 py-2.5 rounded-full flex items-center gap-2 hover:bg-white/20 transition-all text-sm justify-center text-center"><Icons.Refresh /> החלף/י קלף</button>
                                     <ButtonPrimary onClick={() => setIsP(true)} icon={Icons.Users} className="min-w-[250px] text-center">זמן מעגל עמיתים</ButtonPrimary>
                                 </div>
                             </motion.div>
                         ) : (
-                            <motion.div key="p" className="w-full flex flex-col items-center text-center text-center">
-                                <GlassCard className="p-8 md:p-10 w-full border-[#FACC15]/20 bg-white/[0.02] text-center text-center">
-                                    <h3 className="text-xl md:text-2xl font-bold text-[#FACC15] mb-6 text-center text-center">זמן מעגל עמיתים</h3>
-                                    <p className="text-lg md:text-xl text-white/80 mb-10 text-center text-center">לאחר השיתוף, 3 משתתפים/ות מוזמנים/ות להגיב ל{currentPlayer.name}:</p>
+                            <motion.div key="p" className="w-full flex flex-col items-center text-center">
+                                <GlassCard className="p-8 md:p-10 w-full border-[#FACC15]/20 bg-white/[0.02] text-center">
+                                    <h3 className="text-xl md:text-2xl font-bold text-[#FACC15] mb-6 text-center">זמן מעגל עמיתים</h3>
+                                    <p className="text-lg md:text-xl text-white/80 mb-10 text-center">לאחר השיתוף, 3 משתתפים/ות מוזמנים/ות להגיב ל{currentPlayer.name}:</p>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                                        <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col items-center gap-3 text-center text-center"><Icons.Lightbulb color="#FACC15" size={40}/><span className="text-lg font-bold text-white text-center">לייעץ</span></div>
-                                        <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col items-center gap-3 text-center text-center"><Icons.ShareBubbles color="#93c5fd" size={40}/><span className="text-lg font-bold text-white text-center">לשתף</span></div>
-                                        <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col items-center gap-3 text-center text-center"><Icons.Heart color="#f9a8d4" size={40}/><span className="text-lg font-bold text-white text-center">לחזק</span></div>
+                                        <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col items-center gap-3 text-center"><Icons.Lightbulb color="#FACC15" size={40}/><span className="text-lg font-bold text-white text-center">לייעץ</span></div>
+                                        <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col items-center gap-3 text-center"><Icons.ShareBubbles color="#93c5fd" size={40}/><span className="text-lg font-bold text-white text-center">לשתף</span></div>
+                                        <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col items-center gap-3 text-center"><Icons.Heart color="#f9a8d4" size={40}/><span className="text-lg font-bold text-white text-center">לחזק</span></div>
                                     </div>
                                 </GlassCard>
-                                <div className="mt-8 flex justify-center text-center text-center"><ButtonPrimary onClick={onEndTurn} icon={Icons.Refresh}>סיימנו, סובב/י למי הבא!</ButtonPrimary></div>
+                                <div className="mt-8 flex justify-center text-center"><ButtonPrimary onClick={onEndTurn} icon={Icons.Refresh}>סיימנו, סובב/י למי הבא!</ButtonPrimary></div>
                             </motion.div>
                         )}
                     </AnimatePresence>
                 </div>
             );
-        }
+        };
 
-        function ScreenSummary({ stats, pCount }) {
+        const ScreenSummary = ({ stats, pCount }) => {
             return (
-                <div className="flex-1 flex flex-col items-center justify-center text-center px-6 text-center text-center">
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-6 text-center">
                     <div className="flex justify-center scale-75 md:scale-90 text-center"><Icons.Trophy /></div>
                     <h1 className="text-3xl md:text-5xl font-black text-white mb-3 mt-4 text-center">היה מדהים!</h1>
-                    <p className="text-lg md:text-xl text-[#E9D5FF] mb-8 text-center text-center">למדתם/ן שלא צריך לפחד משינויים</p>
+                    <p className="text-lg md:text-xl text-[#E9D5FF] mb-8 text-center">למדתם/ן שלא צריך לפחד משינויים</p>
                     <div className="flex gap-4 mb-10 justify-center text-center">
-                        <GlassCard className="p-5 px-8 flex flex-col items-center min-w-[140px] text-center text-center text-center text-center text-center text-center text-center text-center"><span className="text-3xl font-bold text-[#FACC15] mb-1 text-center">{pCount}</span><span className="text-white/60 text-sm text-center">משתתפים/ות</span></GlassCard>
-                        <GlassCard className="p-5 px-8 flex flex-col items-center min-w-[140px] text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"><span className="text-3xl font-bold text-[#6D28D9] mb-1 text-center">{stats.questionsAnswered}</span><span className="text-white/60 text-sm text-center text-center">שאלות</span></GlassCard>
+                        <GlassCard className="p-5 px-8 flex flex-col items-center min-w-[140px] text-center text-center text-center text-center text-center text-center text-center"><span className="text-3xl font-bold text-[#FACC15] mb-1 text-center">{pCount}</span><span className="text-white/60 text-sm text-center">משתתפים/ות</span></GlassCard>
+                        <GlassCard className="p-5 px-8 flex flex-col items-center min-w-[140px] text-center text-center text-center text-center text-center text-center text-center text-center text-center"><span className="text-3xl font-bold text-[#6D28D9] mb-1 text-center">{stats.questionsAnswered}</span><span className="text-white/60 text-sm text-center text-center">שאלות</span></GlassCard>
                     </div>
                     <div className="flex justify-center text-center text-center"><ButtonPrimary onClick={() => window.location.reload()} icon={Icons.Refresh}>משחק חדש</ButtonPrimary></div>
                 </div>
             );
-        }
+        };
 
-        // --- האפליקציה הראשית ---
         function App() {
             const [screen, setScreen] = useState(1);
             const [audience, setAudience] = useState(null);
@@ -428,43 +437,57 @@
             const [isExitModalOpen, setIsExitModalOpen] = useState(false);
             const [pendingAction, setPendingAction] = useState(null);
             const [dbInstance, setDbInstance] = useState(null);
+            const [user, setUser] = useState(null);
+            const [hasCountedSession, setHasCountedSession] = useState(false);
 
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'cheese-game-pisgah-v1';
 
-            // --- לוגיקת Firebase עם בולמי זעזועים מלאים ---
+            // --- לוגיקת Firebase ---
             useEffect(() => {
                 const initFB = async () => {
                     if (window.FB_INIT) {
-                        const { initializeApp, getFirestore, doc, onSnapshot, firebaseConfig } = window.FB_INIT;
+                        const { initializeApp, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, getFirestore, doc, onSnapshot, firebaseConfig } = window.FB_INIT;
                         
-                        const config = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : firebaseConfig;
-                        if (!config || !config.apiKey) return;
+                        let finalConfig = firebaseConfig;
+                        if (typeof __firebase_config !== 'undefined') {
+                            try { finalConfig = JSON.parse(__firebase_config); } catch(e){}
+                        }
+                        
+                        if (!finalConfig || !finalConfig.apiKey) return;
 
                         try {
-                            const fbApp = initializeApp(config);
+                            const fbApp = initializeApp(finalConfig);
+                            const fbAuth = getAuth(fbApp);
                             const fbDb = getFirestore(fbApp);
                             setDbInstance(fbDb);
+
+                            try {
+                                await signInAnonymously(fbAuth);
+                            } catch (authErr) {
+                                return; 
+                            }
                             
-                            const statsDoc = doc(fbDb, 'artifacts', appId, 'public', 'data', 'stats', 'global');
-                            
-                            // שימוש ב-Callback לשגיאות כדי למנוע קריסה!
-                            onSnapshot(statsDoc, (snap) => {
-                                if (snap.exists()) setUsageCount(snap.data().plays || 0);
-                            }, (err) => {
-                                console.warn("Firestore rules error or permission denied (Ignored to keep game running).");
+                            onAuthStateChanged(fbAuth, (u) => {
+                                setUser(u);
+                                if (u) {
+                                    try {
+                                        onSnapshot(doc(fbDb, 'artifacts', appId, 'public', 'data', 'stats', 'global'), (snap) => {
+                                            if (snap.exists()) setUsageCount(snap.data().plays || 0);
+                                        }, (dbErr) => {});
+                                    } catch(e){}
+                                }
                             });
-                        } catch (err) {
-                            console.warn("Offline mode active.");
-                        }
+                        } catch (err) {}
                     }
                 };
                 initFB();
             }, []);
 
             const incrementPlays = async () => {
-                if (!window.FB_INIT || !dbInstance) return;
+                if (!window.FB_INIT || !user || hasCountedSession || !dbInstance) return;
                 const { doc, getDoc, updateDoc, setDoc, increment } = window.FB_INIT;
                 const statsDoc = doc(dbInstance, 'artifacts', appId, 'public', 'data', 'stats', 'global');
+                
                 try {
                     const snap = await getDoc(statsDoc);
                     if (snap.exists()) {
@@ -472,9 +495,8 @@
                     } else {
                         await setDoc(statsDoc, { plays: 1 });
                     }
-                } catch (e) {
-                    console.warn("Could not increment plays (Ignored).");
-                }
+                    setHasCountedSession(true);
+                } catch (e) {}
             };
 
             const handleExitRequest = (targetScreen) => {
@@ -513,7 +535,7 @@
                 const final = Array.from(new Set([...players, ...unsaved]));
                 if (final.length < 2) return;
                 setPlayers(final);
-                if (stats.questionsAnswered === 0) incrementPlays(); // סופר משחק רק בהפעלה ראשונה
+                incrementPlays();
                 pickNextPlayer(final);
             };
 
@@ -522,13 +544,18 @@
                     case 1: return (
                         <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
                             <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-8xl md:text-[100px] mb-6 drop-shadow-[0_0_30px_rgba(250,204,21,0.6)] text-center">🧀</motion.div>
-                            <h1 className="text-4xl md:text-6xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white to-[#E9D5FF] text-center">מי הזיז את הגבינה שלי</h1>
-                            <p className="text-lg md:text-2xl font-light text-[#E9D5FF] mb-10 text-center">מה הייתם עושים אם לא הייתם מפחדים?</p>
+                            <h1 className="text-4xl md:text-6xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white to-[#E9D5FF] text-center">מי הזיז את הגבינ"צ שלי</h1>
+                            <div className="mb-10 text-center flex flex-col items-center">
+                                <p className="text-lg md:text-2xl font-light text-[#E9D5FF] italic">"מה הייתם עושים אם לא הייתם מפחדים?"</p>
+                                <p className="text-sm md:text-base text-[#E9D5FF]/60 mt-1 font-medium">- ספנסר ג'ונסון -</p>
+                            </div>
                             <ButtonPrimary onClick={() => setScreen(2)}>התחילו לשחק</ButtonPrimary>
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 bg-white/5 px-5 py-2 rounded-full border border-white/10 text-white/50 text-sm flex items-center gap-2">
-                                <Icons.Users size={14}/>
-                                {usageCount === 0 ? <span>היו הראשונים לשחק במשחק!</span> : <span>עד היום שוחקו <strong className="text-[#FACC15]">{usageCount}</strong> משחקים ברחבי המדינה</span>}
+                            
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 bg-white/5 px-5 py-2 rounded-full border border-white/10 text-white/50 text-xs flex items-center gap-2">
+                                <Icons.Users size={14} color="#FACC15" />
+                                <span className="text-white/80">עד היום שוחקו <span className="text-[#FACC15] font-bold">{usageCount}</span> משחקים ברחבי המדינה</span>
                             </motion.div>
+                            
                         </div>
                     );
                     case 2: return (
@@ -537,7 +564,7 @@
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl mx-auto text-center">
                                 <GlassCard className={`p-8 flex flex-col items-center text-center gap-4 ${audience === 'teachers' ? 'ring-2 ring-[#FACC15]/20 shadow-[0_0_15px_rgba(250,204,21,0.1)]' : ''}`} onClick={() => setAudience('teachers')}>
                                     <div className={`p-5 rounded-full ${audience === 'teachers' ? 'bg-[#FACC15] text-[#14002E]' : 'bg-white/5 text-[#E9D5FF]'}`}><Icons.Graduation /></div>
-                                    <h3 className="text-xl font-bold text-white">מורים ומורות</h3>
+                                    <h3 className="text-xl font-bold text-white text-center">מורים ומורות</h3>
                                 </GlassCard>
                                 <GlassCard className={`p-8 flex flex-col items-center text-center gap-4 ${audience === 'students' ? 'ring-2 ring-[#FACC15]/20 shadow-[0_0_15px_rgba(250,204,21,0.1)]' : ''}`} onClick={() => setAudience('students')}>
                                     <div className={`p-5 rounded-full ${audience === 'students' ? 'bg-[#FACC15] text-[#14002E]' : 'bg-white/5 text-[#E9D5FF]'}`}><Icons.Users /></div>
@@ -548,16 +575,16 @@
                         </div>
                     );
                     case 3: return (
-                        <div className="flex-1 flex flex-col items-center justify-center w-full max-w-3xl mx-auto px-6 text-center text-center">
-                            <h2 className="text-3xl font-bold text-white mb-6 text-center text-center">הכנסת שמות המשתתפים</h2>
-                            <GlassCard hoverEffect={false} className="w-full p-6 mb-6 text-center text-center">
+                        <div className="flex-1 flex flex-col items-center justify-center w-full max-w-3xl mx-auto px-6 text-center">
+                            <h2 className="text-3xl font-bold text-white mb-6 text-center">הכנסת שמות המשתתפים</h2>
+                            <GlassCard hoverEffect={false} className="w-full p-6 mb-6 text-center">
                                 <div className="flex flex-col md:flex-row gap-4 text-center">
                                     <textarea id="playerInput" placeholder="שמות (מופרדים בפסיק או שורה)..." className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-lg placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#FACC15] h-20 resize-none text-center" dir="rtl" />
                                     <button onClick={() => {
                                         const names = getNamesFromInput();
                                         setPlayers(prev => Array.from(new Set([...prev, ...names])));
                                         document.getElementById('playerInput').value = "";
-                                    }} className="bg-[#6D28D9] text-white rounded-2xl px-8 font-bold md:w-32 h-12 md:h-auto hover:bg-[#7c3aed] text-center text-center text-center">הוסף</button>
+                                    }} className="bg-[#6D28D9] text-white rounded-2xl px-8 font-bold md:w-32 h-12 md:h-auto hover:bg-[#7c3aed] text-center">הוסף</button>
                                 </div>
                                 <div className="flex flex-wrap gap-2 mt-4 max-h-32 overflow-y-auto custom-scrollbar justify-center text-center">
                                     {players.map(p => (
@@ -567,7 +594,7 @@
                                     ))}
                                 </div>
                             </GlassCard>
-                            <ButtonPrimary onClick={handleStart} icon={Icons.CheckCircle2}>התחילו את המשחק</ButtonPrimary>
+                            {players.length >= 2 && <ButtonPrimary onClick={handleStart} icon={Icons.CheckCircle2}>התחילו את המשחק</ButtonPrimary>}
                         </div>
                     );
                     case 4: return <ScreenRoulette onNext={() => setScreen(5)} players={players} currentPlayer={currentP} />;
@@ -597,7 +624,7 @@
                     
                     <header className="p-4 md:p-6 flex justify-between items-center z-[100] relative shrink-0">
                         <button onClick={() => handleExitRequest(1)} className="flex items-center gap-2 opacity-60 hover:opacity-100 pointer-events-auto shrink-0 transition-opacity order-first">
-                            <span className="text-xl">🧀</span><span className="text-white font-bold hidden md:block">מי הזיז את הגבינה שלי</span>
+                            <span className="text-xl">🧀</span><span className="text-white font-bold hidden md:block">מי הזיז את הגבינ"צ שלי</span>
                         </button>
                         <div className="flex gap-2 md:gap-3 pointer-events-auto text-center">
                             <button onClick={() => setIsInfoOpen(true)} className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white border border-white/20 font-medium text-xs md:text-sm backdrop-blur-md hover:bg-white/20 transition-all text-center"><Icons.Info /> הוראות</button>
@@ -607,7 +634,7 @@
                         </div>
                     </header>
                     <main className="relative flex-1 flex flex-col overflow-hidden text-center text-center">
-                        <AnimatePresence mode="wait text-center text-center"><motion.div className="flex-1 flex flex-col text-center" key={screen} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>{renderContent()}</motion.div></AnimatePresence>
+                        <AnimatePresence mode="wait text-center"><motion.div className="flex-1 flex flex-col text-center text-center" key={screen} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>{renderContent()}</motion.div></AnimatePresence>
                     </main>
                     <footer className="p-4 text-center z-50 relative pointer-events-none shrink-0 text-center"><a href="https://www.pisgah.org.il/" target="_blank" rel="noopener noreferrer" className="pointer-events-auto inline-flex items-center gap-2 text-white/20 hover:text-[#FACC15] text-xs transition-colors">באהבה מפסג"ה חדרה <Icons.External /></a></footer>
                 </div>
@@ -621,6 +648,7 @@
     <!-- Firebase SDK Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         
         // --- Firebase Config injected here ---
@@ -633,7 +661,7 @@
             appId: "1:238630590497:web:2a16a3b3fde9a909c2ab60"
         };
         
-        window.FB_INIT = { initializeApp, getFirestore, doc, setDoc, getDoc, updateDoc, increment, onSnapshot, firebaseConfig };
+        window.FB_INIT = { initializeApp, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, getFirestore, doc, setDoc, getDoc, updateDoc, increment, onSnapshot, firebaseConfig };
     </script>
 </body>
 </html>
